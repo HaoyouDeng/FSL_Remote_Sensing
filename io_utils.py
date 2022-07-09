@@ -17,8 +17,8 @@ model_dict = dict(
 
 def parse_args(script):
     parser = argparse.ArgumentParser(description= 'few-shot script %s' %(script))
-    parser.add_argument('--dataset'     , default='miniImagenet', help='miniImagenet/cub/cars/places/plantae/CropDiseases/EuroSAT/ISIC/chestX')
-    parser.add_argument('--testset', default='miniImagenet', help='miniImagenet/cub/cars/places/plantae/CropDiseases/EuroSAT/ISIC/chestX')
+    parser.add_argument('--dataset'     , default='NWPU_RESISC45', help='miniImagenet/NWPU_RESISC45/EuroSAT')
+    parser.add_argument('--testset', default='NWPU_RESISC45', help='miniImagenet/NWPU_RESISC45/EuroSAT')
     parser.add_argument('--model'       , default='ResNet10',      help='model: Conv{4|6} / ResNet{10|12|18|34|50|101}') # 50 and 101 are not used in the paper
     parser.add_argument('--method'      , default='baseline',   help='baseline/baseline++/protonet/matchingnet/relationnet{_softmax}/maml{_approx}') #relationnet_softmax replace L2 norm with softmax to expedite training, maml_approx use first-order approximation in the gradient for efficiency
     parser.add_argument('--train_n_way' , default=5, type=int,  help='class num to classify for training') #baseline and baseline++ would ignore this parameter

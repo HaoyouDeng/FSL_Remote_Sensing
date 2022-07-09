@@ -5,7 +5,7 @@ import os
 import random
 
 cwd = os.getcwd()
-data_path = '/home/dhy/work/dataset/NWPU_RESISC45/'
+data_path = join(cwd,'source')
 savedir = './'
 dataset_list = ['base','val','novel']
 val_dataset_label_list = ['baseball_diamond',

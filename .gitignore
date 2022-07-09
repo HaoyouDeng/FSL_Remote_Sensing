@@ -6,7 +6,10 @@ filelists/*/*.json
 checkpoints/*
 !checkpoints/Pretrain
 
+scripts/*
+!scripts/train.sh
+
 logs/*
 record/*
-scripts/*
+
 output/*

@@ -32,11 +32,12 @@ def train(base_loader, val_loader, model, optimization, start_epoch, stop_epoch,
 
     max_acc = 0
     max_epoch = 0
+    total_it = 0
     tqdm_gen = tqdm(range(start_epoch, stop_epoch), total=(stop_epoch-start_epoch), ncols=100)
     for epoch in tqdm_gen:
         # train
         model.train()
-        epoch_loss = model.train_loop(epoch, base_loader,  optimizer)
+        epoch_loss, total_it = model.train_loop(epoch, base_loader, optimizer, total_it)
         tb_writer.add_scalar('train_loss', epoch_loss, epoch)
 
         # val
@@ -90,7 +91,8 @@ if __name__=='__main__':
     params_path = os.path.join(params.checkpoint_dir, 'logs/params.json')
     with open(params_path, 'w') as f:
         json.dump(vars(params), f, indent=4)
-
+    if params.tag == 'default':
+        params.tag = f'name: {params.name} \n model: {params.model} \n method: {params.method} \n shot: {params.n_shot}'
     logger.info(params.tag)
          
     if 'Conv' in params.model:
@@ -185,7 +187,7 @@ if __name__=='__main__':
         if params.warmup_file is not None:
             warmup_resume_file = params.warmup_file
         else:
-            warmup_resume_file = './checkpoints/Pretrain/399.tar'
+            warmup_resume_file = './checkpoints/Pretrain/{}.tar'.format(params.model)
         logger.info('load pretrain model checkpoint file dir:{}'.format(warmup_resume_file))
         tmp = torch.load(warmup_resume_file, map_location=CUDA)
         if tmp is not None: 

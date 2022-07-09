@@ -1,13 +1,11 @@
-# Few-Shot Learning for Classification
+# Few-Shot Learning for Remote Sensing Image
 
 Haoyou Deng (haoyoudeng@gmail.com)
 
-An awesome implement for few-shot learning, including some classical methods (such as baseline, MatchingNet, ProtoNet, RelationNet and MAML) and cross-domain few-shot learning.
+An implement for remote sensing image few-shot learning, including some classical methods (such as MatchingNet, ProtoNet, RelationNet and MAML).
 
 ## Datasets
-For few-shot learning and cross-domain few-shot learning, we use datasets: miniImageNet, CUB, Cars, Places, Plantae, CropDiseases, EuroSAT, ISIC and ChestX.
-
-For downloading and using datasets, refer to [CDFSL-ATA](https://github.com/Haoqing-Wang/CDFSL-ATA).
+For fremote sensing image few-shot learning, we use NWPU-RESISC45 and EuroSAT datasets.
 
 ## Pretrain
 To get a pretrain backbone model.

@@ -8,6 +8,7 @@ checkpoints/*
 
 scripts/*
 !scripts/train.sh
+!scripts/test.sh
 
 logs/*
 record/*

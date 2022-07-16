@@ -21,6 +21,6 @@ do
                         --name $NAME \
                         --stop_epoch 800 \
                         --train_aug \
-                        --not_warmup
+                        --not_warmup \
                         -g 0
 done

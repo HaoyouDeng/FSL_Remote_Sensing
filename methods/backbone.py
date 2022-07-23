@@ -126,7 +126,6 @@ class ConvBlock(nn.Module):
 
         self.trunk = nn.Sequential(*self.parametrized_layers)
 
-
     def forward(self,x):
         out = self.trunk(x)
         return out
@@ -230,8 +229,9 @@ class BasicBlock(nn.Module):
         for layer in self.parametrized_layers:
             init_layer(layer)
 
-
     def forward(self, x):
+        short_out = x if self.shortcut_type == 'identity' else self.BNshortcut(self.shortcut(x))
+        
         out = self.C1(x)
         out = self.BN1(out)
         out = self.relu(out)
@@ -240,10 +240,10 @@ class BasicBlock(nn.Module):
         out = self.relu(out)
         out = self.C3(out)
         out = self.BN3(out)
-        short_out = x if self.shortcut_type == 'identity' else self.BNshortcut(self.shortcut(x))
         out = out + short_out
         out = self.relu(out)
         out = self.maxpool(out)
+        
         return out
 
 # Bottleneck block
@@ -272,7 +272,6 @@ class BottleneckBlock(nn.Module):
         self.relu = nn.ReLU()
         self.parametrized_layers = [self.C1, self.BN1, self.C2, self.BN2, self.C3, self.BN3]
         self.half_res = half_res
-
 
         # if the input number of channels is not equal to the output, then need a 1x1 convolution
         if indim!=outdim:
@@ -433,7 +432,7 @@ class ResNet(nn.Module):
             trunk.append(Flatten())
             self.final_feat_dim = indim
         else:
-            self.final_feat_dim = [ indim, 7, 7]
+            self.final_feat_dim = [indim, 7, 7]
 
         self.trunk = nn.Sequential(*trunk)
 
@@ -478,11 +477,17 @@ def ResNet101( flatten = True):
     return ResNet(BottleneckBlock, [3,4,23,3],[256,512,1024,2048], flatten)
 
 def _test():
-    model = ResNet12()
+    from torchinfo import summary
+    model = ResNet18()
+    summary(model,input_size=(21, 3, 224, 224))
     print(model)
-    x = torch.randn(5, 3, 224, 224)
-    y = model(x)
-    print(y.size())
+    model = ResNet12()
+    summary(model,input_size=(21, 3, 224, 224))
+    print(model)
+
+    # x = torch.randn(5, 3, 224, 224)
+    # y = model(x)
+    # print(y.size())
 
 
 if __name__ == '__main__':

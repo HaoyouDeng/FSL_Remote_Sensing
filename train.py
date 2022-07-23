@@ -65,9 +65,10 @@ if __name__=='__main__':
     params = parse_args('train')
 
     # For debug
-    params.model = 'ResNet12'
-    params.method = 'maml_approx'
-    params.gpu = 0
+    # params.model = 'ResNet12'
+    # params.method = 'maml_approx'
+    # params.gpu = 0
+    # params.n_shot = 1
 
     GPU = params.gpu
     # os.environ['CUDA_VISIBLE_DEVICES'] = str(GPU)
@@ -167,7 +168,6 @@ if __name__=='__main__':
     else:
        raise ValueError('Unknown method')
 
-    model = model.cuda()
  
     start_epoch = params.start_epoch
     stop_epoch = params.stop_epoch
@@ -176,7 +176,7 @@ if __name__=='__main__':
 
     if params.resume_epoch > 0:
         resume_file = os.path.join(params.checkpoint_dir, '{:d}.tar'.format(params.resume_epoch))
-        tmp = torch.load(resume_file, map_location=CUDA)
+        tmp = torch.load(resume_file, map_location="cpu")
         start_epoch = tmp['epoch']+1
         model.load_state_dict(tmp['state'])
         logger.info('\tResume the training weight at {} epoch.'.format(start_epoch))
@@ -187,7 +187,7 @@ if __name__=='__main__':
         else:
             warmup_resume_file = './checkpoints/Pretrain/{}.tar'.format(params.model)
         logger.info('load pretrain model checkpoint file dir:{}'.format(warmup_resume_file))
-        tmp = torch.load(warmup_resume_file, map_location=CUDA)
+        tmp = torch.load(warmup_resume_file, map_location="cpu")
         if tmp is not None: 
             state = tmp['state']
             state_keys = list(state.keys())
@@ -202,6 +202,8 @@ if __name__=='__main__':
             raise ValueError('No warm_up file')
     else:
         logger.info('not use pretrain model')
+    
+    model = model.cuda()
 
     logger.info('Start training...')
     model = train(base_loader, val_loader,  model, optimization, start_epoch, stop_epoch, params)

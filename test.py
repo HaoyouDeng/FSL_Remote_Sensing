@@ -34,10 +34,14 @@ if __name__ == '__main__':
     params.checkpoint_dir = '%s/%s'%(params.save_dir, params.name)
     start_time = time.strftime("%Y_%m_%d_%H_%M_%S", time.localtime()) 
     logger.add('{}/logs/test/{}.log'.format(params.checkpoint_dir, start_time))
+    print('log dir: {}/logs/test/{}.log'.format(params.checkpoint_dir, start_time))
 
     acc_all = []
     iter_num = 2000
-    image_size = 224
+    if 'Conv' in params.model:
+        image_size = 84
+    else:
+        image_size = 224
 
     few_shot_params = dict(n_way = params.test_n_way , n_support = params.n_shot) 
 

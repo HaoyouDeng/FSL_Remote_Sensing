@@ -205,7 +205,7 @@ class BasicBlock(nn.Module):
             self.BN2 = nn.BatchNorm2d(outdim)
             self.C3 = nn.Conv2d(outdim, outdim,kernel_size=3, padding=1,bias=False)
             self.BN3 = nn.BatchNorm2d(outdim)
-        self.relu = nn.ReLU()
+        self.relu = nn.ReLU(inplace=True)
         self.maxpool = nn.MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
 
         self.parametrized_layers = [self.C1, self.BN1, self.C2, self.BN2, self.C3, self.BN3]

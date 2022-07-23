@@ -45,7 +45,7 @@ class MAML(MetaTemplate):
 
         for task_step in range(self.task_update_num):
             scores = self.forward(x_a_i)
-            set_loss = self.loss_fn( scores, y_a_i) 
+            set_loss = self.loss_fn(scores, y_a_i) 
             grad = torch.autograd.grad(set_loss, fast_parameters, create_graph=True) #build full graph support gradient of gradient
             if self.approx:
                 grad = [ g.detach()  for g in grad ] #do not calculate gradient of gradient if using first order approximation

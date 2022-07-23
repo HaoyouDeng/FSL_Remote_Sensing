@@ -64,13 +64,10 @@ if __name__=='__main__':
     np.random.seed(10)
     params = parse_args('train')
 
-    # # For debug
-    # params.model = 'Conv4'
-    # params.method = 'baseline'
-    # params.fix_layers = 1
-    # params.stop_epoch = 100
-    # params.gpu = 0
-    # params.not_warmup = True
+    # For debug
+    params.model = 'ResNet12'
+    params.method = 'maml_approx'
+    params.gpu = 0
 
     GPU = params.gpu
     # os.environ['CUDA_VISIBLE_DEVICES'] = str(GPU)
@@ -162,6 +159,7 @@ if __name__=='__main__':
         elif params.method in ['maml' , 'maml_approx']:
             backbone.ConvBlock.maml = True
             backbone.SimpleBlock.maml = True
+            backbone.BasicBlock.maml = True
             backbone.BottleneckBlock.maml = True
             backbone.ResNet.maml = True
             model           = MAML(  model_dict[params.model], approx = (params.method == 'maml_approx') , **train_few_shot_params )
